@@ -2,133 +2,127 @@ package com.example.instagramclone;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.parse.SignUpCallback;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button btnSave,btnGetAllData;
-    private EditText edtName,edtPunchSpeed,edtPunchPower,edtKickSpeed,edtKickPower;
-    private TextView txtGetData;
-    private String allKickBoxers;
-    private Button btnTransition;
+    private Button btnSignUp,btnLogIn;
+    private EditText edtEmail,edtUsername,edtPassword;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setTitle("Sign Up");
 
-        btnSave = findViewById(R.id.btnSave);
-        btnSave.setOnClickListener(MainActivity.this);
-
-        edtName = findViewById(R.id.edtName);
-        edtPunchSpeed = findViewById(R.id.edtPunchSpeed);
-        edtPunchPower = findViewById(R.id.edtPunchPower);
-        edtKickSpeed = findViewById(R.id.edtKickSpeed);
-        edtKickPower = findViewById(R.id.edtKickPower);
-
-        txtGetData  = findViewById(R.id.txtGetData);
-
-        btnGetAllData = findViewById(R.id.btnGetAllData);
-
-        btnTransition = findViewById(R.id.btnNextActivity);
-
-        txtGetData.setOnClickListener(new View.OnClickListener() {
+        edtEmail = findViewById(R.id.edtEmail);
+        edtUsername = findViewById(R.id.edtUsername);
+        edtPassword = findViewById(R.id.edtPassword);
+        edtPassword.setOnKeyListener(new View.OnKeyListener() {
             @Override
-            public void onClick(View v) {
-
-
-
-                ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("KickBoxer");
-                parseQuery.getInBackground("Dqz3Wio3kx", new GetCallback<ParseObject>() {
-                    @Override
-                    public void done(ParseObject object, ParseException e) {
-                        if (object != null && e == null){
-
-                            txtGetData.setText(object.get("name") + "Punch Power: " + object.get("punch_power") );
-                        }
-                    }
-                });
-            }
-        });
-        btnGetAllData.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                allKickBoxers = "";
-
-                ParseQuery<ParseObject> queryAll = ParseQuery.getQuery("KickBoxer");
-                queryAll.whereGreaterThan("punch_power",500);
-
-                queryAll.findInBackground(new FindCallback<ParseObject>() {
-                    @Override
-                    public void done(List<ParseObject> objects, ParseException e) {
-                       if (e== null){
-                           if (objects.size() > 0){
-
-                               for (ParseObject kickBoxer : objects){
-                                   allKickBoxers = allKickBoxers + kickBoxer.get("name")  + "\n";
-                               }
-                               FancyToast.makeText(MainActivity.this,  allKickBoxers, FancyToast.LENGTH_LONG, FancyToast.SUCCESS, true).show();
-
-
-                           }
-
-                       }
-                    }
-                });
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN){
+                    onClick(btnSignUp);
+                }
+                return false;
             }
         });
 
-        btnTransition.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        btnSignUp = findViewById(R.id.btnSignUp);
+        btnLogIn = findViewById(R.id.btnLogIn);
 
-                Intent intent = new Intent(MainActivity.this,SignUpLoginActivity.class);
-                startActivity(intent);
-            }
-        });
+        btnSignUp.setOnClickListener(this);
+        btnLogIn.setOnClickListener(this);
+
+        if (ParseUser.getCurrentUser() != null){
+            transitionToSocialMediaActivity();
+        }
 
     }
-
 
     @Override
-    public void onClick(View v) {
-        try {
-            ParseObject kickBoxer = new ParseObject("KickBoxer");
-            kickBoxer.put("name", edtName.getText().toString());
-            kickBoxer.put("punch_speed", Integer.parseInt(edtPunchSpeed.getText().toString()));
-            kickBoxer.put("punch_power", edtPunchPower.getText().toString());
-            kickBoxer.put("kick_speed", edtKickSpeed.getText().toString());
-            kickBoxer.put("kick_power", edtKickPower.getText().toString());
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.btnSignUp:
 
-            kickBoxer.saveInBackground(new SaveCallback() {
-                @Override
-                public void done(ParseException e) {
-                    if (e == null) {
-                        FancyToast.makeText(MainActivity.this, kickBoxer.get("name").toString() + " is saved ", FancyToast.LENGTH_LONG, FancyToast.SUCCESS, true).show();
-                    } else {
-                        FancyToast.makeText(MainActivity.this, e.getMessage(), FancyToast.LENGTH_LONG, FancyToast.ERROR, true).show();
-                    }
+                if (edtEmail.getText().toString().equals("") || edtPassword.getText().toString().equals("") || edtUsername.getText().toString().equals("") ){
+                    FancyToast.makeText(MainActivity.this,"Username , Email , Password can't be left empty", Toast.LENGTH_LONG,FancyToast.INFO,true).show();
                 }
-            });
-        }
-        catch (Exception e){
-            FancyToast.makeText(MainActivity.this, e.getMessage(), FancyToast.LENGTH_LONG, FancyToast.ERROR, true).show();
+                else {
+                    ParseUser appUser = new ParseUser();
+                    appUser.setEmail(edtEmail.getText().toString());
+                    appUser.setUsername(edtUsername.getText().toString());
+                    appUser.setPassword(edtPassword.getText().toString());
+
+                    ProgressDialog progressDialog = new ProgressDialog(this);
+                    progressDialog.setMessage("Signing up " + edtUsername.getText().toString());
+                    progressDialog.show();
+
+                    appUser.signUpInBackground(new SignUpCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e == null) {
+                                FancyToast.makeText(MainActivity.this, appUser.getUsername() + "is Signed Up", Toast.LENGTH_LONG, FancyToast.SUCCESS, true).show();
+                                transitionToSocialMediaActivity();
+
+                            } else {
+                                FancyToast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG, FancyToast.ERROR, true).show();
+
+                            }
+                            progressDialog.dismiss();
+                        }
+                    });
+                }
+                break;
+            case R.id.btnLogIn:
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+
+                break;
 
         }
     }
+
+    public void rootLayoutTapped(View view){
+        try {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),0);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+    }
+
+    private void transitionToSocialMediaActivity(){
+
+        Intent intent = new Intent(MainActivity.this,SocialMediaActivity.class);
+        startActivity(intent);
+    }
+
 }
