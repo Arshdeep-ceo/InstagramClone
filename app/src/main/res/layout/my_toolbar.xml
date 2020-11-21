@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.Toolbar
+    xmlns:andoid="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    andoid:id="@+id/myToolbar"
+    andoid:layout_width="match_parent"
+    andoid:layout_height="wrap_content"
+    andoid:background="#00E676">
+
+</androidx.appcompat.widget.Toolbar>
