@@ -1,19 +1,33 @@
 package com.example.instagramclone;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+
+import com.shashank.sony.fancytoastlib.FancyToast;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link SharePictureTab#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SharePictureTab extends Fragment {
+public class SharePictureTab extends Fragment implements View.OnClickListener {
+
+    private ImageView imgShare;
+    private EditText edtImageDesc;
+    private Button btnShareImage;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -59,6 +73,52 @@ public class SharePictureTab extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_share_picture_tab, container, false);
+        View view = inflater.inflate(R.layout.fragment_share_picture_tab, container, false);
+
+        imgShare = view.findViewById(R.id.imgShare);
+        edtImageDesc = view.findViewById(R.id.edtImageDesc);
+        btnShareImage = view.findViewById(R.id.btnShareImage);
+
+        imgShare.setOnClickListener(SharePictureTab.this);
+        btnShareImage.setOnClickListener(SharePictureTab.this);
+
+
+        return view;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (getId()){
+            case R.id.imgShare:
+
+                if (Build.VERSION.SDK_INT >=23 && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+
+                    requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},1000);
+                }
+                else {
+                    getChosenImage();
+                }
+
+
+                break;
+            case R.id.btnShareImage:
+                break;
+        }
+    }
+
+    private void getChosenImage() {
+        FancyToast.makeText(getContext(),"Now we can access the Images", Toast.LENGTH_SHORT,FancyToast.SUCCESS,true).show();
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == 1000){
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                getChosenImage();
+            }
+        }
     }
 }
