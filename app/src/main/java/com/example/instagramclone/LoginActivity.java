@@ -1,7 +1,5 @@
 package com.example.instagramclone;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -9,10 +7,12 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.parse.LogInCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.shashank.sony.fancytoastlib.FancyToast;
@@ -21,6 +21,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private EditText edtLogInEmail,edtLogInPassword;
     private Button btnLogInActivity,btnSignUpLogInActivity;
+    private TextView txtSignUpLogInActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +31,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         edtLogInEmail = findViewById(R.id.edtLogInEmail);
         edtLogInPassword = findViewById(R.id.edtLogInPassword);
+        txtSignUpLogInActivity = findViewById(R.id.txtSignUpLogInActivity);
         edtLogInPassword.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -41,10 +43,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         });
 
         btnLogInActivity = findViewById(R.id.btnLogInActivity);
-        btnSignUpLogInActivity = findViewById(R.id.btnSignUpLogInActivity);
+//        btnSignUpLogInActivity = findViewById(R.id.btnSignUpLogInActivity);
 
         btnLogInActivity.setOnClickListener(LoginActivity.this);
-        btnSignUpLogInActivity.setOnClickListener(LoginActivity.this);
+        txtSignUpLogInActivity.setOnClickListener(LoginActivity.this);
+
 
         if (ParseUser.getCurrentUser() != null){
             transitionToSocialMediaActivity();
@@ -75,7 +78,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 });
 
                 break;
-            case R.id.btnSignUpLogInActivity:
+            case R.id.txtSignUpLogInActivity:
 
                 Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                 startActivity(intent);
@@ -99,5 +102,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         Intent intent = new Intent(LoginActivity.this,SocialMediaActivity.class);
         startActivity(intent);
+        finish();
     }
 }

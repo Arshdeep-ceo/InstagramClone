@@ -15,9 +15,10 @@
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/edtProfileBio"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.04"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.78" />
+        app:layout_constraintVertical_bias="0.92" />
 
     <EditText
         android:id="@+id/edtProfileBio"
@@ -28,9 +29,10 @@
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/edtProfileProfession"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.04"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.87" />
+        app:layout_constraintVertical_bias="0.93" />
 
     <EditText
         android:id="@+id/edtProfileProfession"
@@ -41,9 +43,10 @@
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/edtProfileHobbies"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.04"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.90999997" />
+        app:layout_constraintVertical_bias="0.95" />
 
     <EditText
         android:id="@+id/edtProfileHobbies"
@@ -54,9 +57,10 @@
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/edtProfileFavSport"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.04"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.94" />
+        app:layout_constraintVertical_bias="0.96" />
 
     <EditText
         android:id="@+id/edtProfileFavSport"
@@ -67,19 +71,50 @@
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/btnProfileUpdateInfo"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.04"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.90999997" />
+        app:layout_constraintVertical_bias="0.95" />
 
     <Button
         android:id="@+id/btnProfileUpdateInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Update Info"
+        app:backgroundTint="#0B3DBA"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.83" />
+        app:layout_constraintVertical_bias="0.96" />
+
+    <TextView
+        android:id="@+id/txtUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-black"
+        android:text="TextView"
+        android:textSize="26sp"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toTopOf="@+id/edtProfileName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.08"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.56" />
+
+    <ImageView
+        android:id="@+id/imgProfile"
+        android:layout_width="155dp"
+        android:layout_height="107dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toTopOf="@+id/edtProfileName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.666"
+        app:layout_constraintStart_toEndOf="@+id/txtUsername"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.64"
+        app:srcCompat="@drawable/profile_pic"
+        tools:src="@tools:sample/avatars" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

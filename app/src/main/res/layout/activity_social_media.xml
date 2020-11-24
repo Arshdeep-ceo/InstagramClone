@@ -6,22 +6,39 @@
     android:layout_height="match_parent"
     tools:context=".SocialMediaActivity">
 
+    <ImageView
+        android:id="@+id/imageView9"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/whatsapp_background1" />
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <include android:id="@+id/myToolbar"
+
+        <include
+            android:id="@+id/myToolbar"
             layout="@layout/my_toolbar" />
+
         <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/tabLayout"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+            android:background="#B1099B" />
     </com.google.android.material.appbar.AppBarLayout>
+
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/appBarLayout"/>
+        android:layout_below="@+id/appBarLayout"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp">
+
+    </androidx.viewpager.widget.ViewPager>
 
 </RelativeLayout>

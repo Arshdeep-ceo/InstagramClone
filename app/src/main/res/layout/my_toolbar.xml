@@ -4,6 +4,6 @@
     andoid:id="@+id/myToolbar"
     andoid:layout_width="match_parent"
     andoid:layout_height="wrap_content"
-    andoid:background="#421B97">
+    andoid:background="#B1099B">
 
 </androidx.appcompat.widget.Toolbar>
